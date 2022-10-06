@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Set the name of the file to be the new date
+function set_name {
+    read -p "Would you like to rename the file $1 to $2? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+    mv -i ./"$1" ./"$2"
+
+    echo
+    echo "Done. :)"
+    echo
+}
+
+# Read the date from the metadata of the file provided
+# Note: assumes it is in the local directory
+function get_date {
+    local creation_date=$(mdls $1 -name kMDItemContentCreationDate)
+    local ext=${1##*.}
+    local new_name_colons=${creation_date:29:19}
+    local new_name="${new_name_colons//:/$'-'}"
+
+    # if [  ]; then
+    #     local
+    # else
+
+
+    local filename="$new_name.$ext"
+
+
+    echo "New name for this file is: $filename"
+    echo
+    set_name $1 "$filename"
+}
+
+# Ensure argument given
+if [ $# -eq 0 ]
+then
+    echo "No filename provided"
+else
+    if [ -f "$1" ]; then
+        echo
+        echo "Getting the creation date for '$1'..."
+        get_date $1
+    else
+        echo "No file by that name found."
+    fi
+fi
+
+
+
+# done: Name change locally
+# TODO: Take a folder, f, duplicate its files, and run name_date on it

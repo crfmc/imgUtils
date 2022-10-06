@@ -1,0 +1,9 @@
+
+# Loop through directories in current directory
+cd "$1"
+
+for d in */ ; do
+    cd "$d"
+    echo "$(pwd) $(ls -1 | wc -l)"
+    cd ../
+done
