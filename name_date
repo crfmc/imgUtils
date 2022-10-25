@@ -2,7 +2,13 @@
 
 # Set the name of the file to be the new date
 function set_name {
-    read -p "Would you like to rename the file $1 to $2? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+    # TODO: Take a folder, f, duplicate its files, and run name_date on it
+
+    # conditional on the -v flag for verbose
+    if ["$3" -eq "v"]
+        read -p "Would you like to rename the file $1 to $2? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+    fi
+    
     mv -i ./"$1" ./"$2"
 
     echo
@@ -28,7 +34,7 @@ function get_date {
 
     echo "New name for this file is: $filename"
     echo
-    set_name $1 "$filename"
+    set_name $1 "$filename" 
 }
 
 # Ensure argument given
@@ -48,4 +54,3 @@ fi
 
 
 # done: Name change locally
-# TODO: Take a folder, f, duplicate its files, and run name_date on it
